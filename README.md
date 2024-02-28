@@ -1,144 +1,88 @@
-# Simple Unix File System Simuilator
+# Requirement Definition Document for Simple Unix File System Simulator
 
----
+## 1. Introduction
 
-## Table of contents
-* [Overview](#overview)
-* [Installation guide](#installation)
-  * [Windows](#windows)
-* [How it works](#howitworks)
-  * [File structures](#filestructures)
-    * [Super block](#superblock)
-    * [Bitmaps](#bitmaps)
-    * [Index nodes](#indexnodes)
-    * [Data blocks](#datablocks)
-  * [Disk segmentation](#disksegmentation)
-  * [File system commands](#commands)
-    * [Command reference](#commandreference)
-    * [Command usages](#commandusages)
-* [Conclusion](#conclusion)
+### 1.1 Purpose
+The purpose of this document is to outline the requirements for the Simple Unix File System Simulator. This simulator aims to provide an educational tool that demonstrates the workings of a Unix file system through simulation, using Java 17. It is intended for users who wish to understand file system concepts such as index nodes, super blocks, data blocks, and bitmaps.
 
-<a name="overview"></a>
-## Overview
-A Unix file system simulator, written in Java 17. This file system uses some of the simpler data structures, used in file systems, including:
-- Index nodes
-- Super block
-- Data blocks
-- Bitmaps and others.
+### 1.2 Scope
+The Simple Unix File System Simulator will simulate a Unix file system using a single binary file as a container to mimic a hard drive. The simulator will support basic file system operations such as creating directories, removing directories, listing contents, changing directories, copying files, removing files, displaying file contents, writing to files, importing files from the user's machine, and exporting files to the user's machine.
 
----
+## 2. Overall Description
 
-<a name="installation"></a>
-## Installation guide
+### 2.1 Product Perspective
+The product is a standalone application developed in Java 17, designed to run on Windows environments. It simulates a Unix file system's behavior, providing an interactive interface for users to execute file system commands.
 
-<a name="windows"></a>
-### Windows
-Navigate to a directory where you want to install the system. Open cmd and `cd` to that directory, for example:
-```
-cd C:\test\file-system-simulator
-```
-Then, clone the repository:
-```
-git clone https://github.com/yoanpetrov02/file-system-simulator.git
-```
-Afterwards, use the provided maven wrapper if you don't have Maven installed to build the project:
-```
-mvnw clean install
-```
-If you have Maven **3.9.2** installed, you can instead just use the `mvn` command:
-```
-mvn clean install
-```
+### 2.2 Product Functions
+- **File System Creation:** Users can create a new file system by specifying a path and size for the container file.
+- **Directory Operations:** Users can create and remove directories.
+- **File Operations:** Users can list directory contents, change directories, copy, remove, view, and write to files.
+- **File Import/Export:** Users can import files from their machine into the simulated file system and export files from the simulated file system to their machine.
+- **Command Help:** Users can view a list of all available commands and their usages.
 
-After building the project, open the project directory with your IDE of choice and run it from the `Main.java` file or run the generated .jar file from the `target` folder.
+### 2.3 User Classes and Characteristics
+- **Educators and Students:** Individuals seeking to understand the inner workings of Unix file systems through practical simulation.
+- **Software Developers:** Developers interested in file system concepts or developing file system-related applications.
 
----
-Upon starting the project, the system will ask for the path to container file, as well as the maximum size of that file:\
-![image](https://github.com/yoanpetrov02/file-system-simulator/assets/87146784/f2f1e85a-c568-4762-a1aa-621f8c6fdee1)\
-You have to provide a full path, including the name of the file (it doesn't have to be created in advance) in order for the program to work. Example:
-```
-C:\test\filesystem.dat
-```
-After providing the path, you need to provide a file size in bytes (preferrably a power of 2). If everything went OK, you can now use the application.
+### 2.4 Operating Environment
+The simulator is designed to run on Windows operating systems. It requires Java 17 and Maven for building the project.
 
-<a name="howitworks"></a>
-## How it works
-This implementation uses a single binary file, which is used as a container for the file system. The binary file is treated just like a hard drive would be treated by a file system - it gets split into blocks, each with the same size, which allows for allocation/deletion and segmentation of the disk for the different types of data that need to be stored.
+### 2.5 Design and Implementation Constraints
+- The simulator is implemented in Java 17, limiting its performance and scalability compared to a native Unix file system.
+- The maximum file size is constrained by the implementation of index nodes and the size of the container file specified by the user.
 
-<a name="filestructures"></a>
-### File structures
+## 3. System Features
 
-<a name="superblock"></a>
-#### Super block
-The super block structure contains metadata about the file system. The system can refer to it for any information about itself, such as:
-- The amount of bytes each block takes
-- The total amount of blocks in the container
-- The maximum size of the container in bytes
-- The offsets in blocks for the different segments of the disk.
+### 3.1 File System Simulation
+- **Description:** The system simulates a Unix file system using a binary file as a container.
+- **Requirements:**
+  - The system must allow users to specify the path and size for the container file.
+  - The system must split the container file into blocks to simulate disk segmentation.
 
-<a name="bitmaps"></a>
-#### Bitmaps
-Bitmaps serve as a way to map bits to blocks in the index node/data block region. For the needs of the system, 1 means the block is allocated (taken), 0 means the block is unallocated (free).
+### 3.2 File and Directory Management
+- **Description:** Users can perform basic file and directory operations similar to a Unix file system.
+- **Requirements:**
+  - Support for creating, removing, listing, and navigating directories.
+  - Support for file operations such as copying, removing, viewing, and writing.
 
-<a name="indexnodes"></a>
-#### Index nodes
-Index nodes are a combination of metadata about a file (or directory, they are also treated as files) and a collection of pointers to blocks in the data block region. Each pointer in the direct block list points to a data block on the disk. Whenever a user wants, for example, to read a file, the file system takes all the blocks and concatenates them together to represent the file, which isn't actually saved contiguously. Note, this file system uses index nodes with a list of regular direct pointers, which point directly to data blocks. There are possible implementations of signle, double, triple etc. indirect blocks, in which each pointer in the list points to another list of pointers and so on. This allows a single file to be much larger, as with the current implementation each file can have up to 56 allocated direct blocks, which, after some calculations results in a 28,672 bytes, or 28 kilobytes of maximum file size (which, obviously, is really small for today's standarts).
+### 3.3 File Import/Export
+- **Description:** The system allows users to import files from their machine into the simulated file system and export files back to their machine.
+- **Requirements:**
+  - The system must provide commands for importing and exporting files.
+  - The system must handle file path specifications for import/export operations.
 
-<a name="datablocks"></a>
-#### Data blocks
-Data blocks are used to store the raw data of the files. These are the blocks referenced by index nodes.
+### 3.4 User Interaction
+- **Description:** The system provides an interface for users to interact with the simulated file system through commands.
+- **Requirements:**
+  - The system must accept and process commands entered by the user.
+  - The system must provide feedback and results of command execution.
 
----
-<a name="disksegmentation"></a>
-### Disk segmentation
-Whenever the file system is created, it gets separated into different regions, or segments, for each type of file structure. This is done by calculating the offset for each region, based on the size of the file system provided before creation. The existing regions are (NOTE, the default block size is 512 bytes):
-- Super block region - 1 block. Then, the total amount of blocks is calculated, and based on it, the system calculates the offsets for:
-- Index node bitmap region - bitmaps for the index node region
-- Data block bitmap region - bitmaps for the data block region
-- Index node region - stores the index node blocks
-- Data block region - stores the raw data blocks
+## 4. External Interface Requirements
 
-<a name="commands"></a>
-### File system commands
+### 4.1 User Interfaces
+- **Description:** The system provides a command-line interface for user interaction.
+- **Requirements:**
+  - The interface must display prompts for user input.
+  - The interface must display the results of command executions.
 
-<a name="commandreference"></a>
-#### Command reference
-The system supports some of the basic Unix file system commands, such as:
--  `mkdir` - creates a directory
--  `rmdir` - removes a directory
--  `ls` - lists the content inside the current directory
--  `cd` - changes the directory
--  `cp` - copies a file
--  `rm` - removes a file
--  `cat` - shows the content of a file
--  `write` - writes to a new/existing file
--  `import` - imports a file from the user's machine
--  `export` - exports a file from the simulated file system to the user's machine
--  `help` - lists the usages of all commands.
+### 4.2 Software Interfaces
+- **Description:** The system is built using Java 17 and requires Maven for building.
+- **Requirements:**
+  - Java 17 runtime environment must be installed on the user's machine.
+  - Maven (or provided Maven wrapper) must be available for building the project.
 
-<a name="commandusages"></a>
-#### Command usages:
-Whenever the app starts, the user can execute the `help` command to see the usages of all commands:
-- `mkdir`: `mkdir <dir_name>`
-- `rmdir`: `rmdir`
-- `ls`: `ls`
-- `cd`: `cd <name>` or `cd <name1/name2/...>` or `cd ..` for parent dir or `cd /` for root dir
-- `cp`: `cp <source_name> <dest_name>`
-- `rm`: `rm <file_name>`
-- `cat`: `cat <file_name>`
-- `write`: `write <file_name> "<content>"` or `write +append <file_name> "<content>"`
-- `import`: `import <ext_path> <file_name>` or `import +append <ext_path> <file_name> \"<content>\""`
-- `export`: `export <file_name> <ext_path>`
+## 5. Other Nonfunctional Requirements
 
----
+### 5.1 Performance Requirements
+- The system should respond to user commands within a reasonable time frame, not exceeding 2 seconds for any operation.
 
-<a name="conclusion"></a>
-## Conclusion
+### 5.2 Security Requirements
+- As a simulation tool, the system does not require encryption or advanced security measures. However, file import/export operations should ensure that file paths are validated to prevent directory traversal attacks.
 
-My intention is to provide more features to this project, such as:
-- Loading an existing file system from a file.
-- Implement deduplication.
-- Clean up the code and fix minor bugs or design flaws.
+### 5.3 Software Quality Attributes
+- **Reliability:** The system should handle errors gracefully, providing meaningful error messages to the user.
+- **Usability:** The system should be easy to use, with clear command syntax and helpful documentation.
+- **Maintainability:** The code should be well-organized and documented to facilitate future enhancements and bug fixes.
 
-
-
+## 6. Conclusion
+This Requirement Definition Document outlines the essential requirements for the Simple Unix File System Simulator. The simulator serves as an educational tool, allowing users to explore and understand the concepts of a Unix file system through practical simulation.
