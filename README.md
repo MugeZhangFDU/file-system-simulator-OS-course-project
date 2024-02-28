@@ -56,6 +56,18 @@ The simulator is designed to run on Windows operating systems. It requires Java 
 - **Requirements:**
   - The system must accept and process commands entered by the user.
   - The system must provide feedback and results of command execution.
+  - The system must support some of the basic Unix file system commands, such as:
+     - mkdir - creates a directory
+     - rmdir - removes a directory
+     - ls - lists the content inside the current directory
+     - cd - changes the directory
+     - cp - copies a file
+     - rm - removes a file
+     - cat - shows the content of a file
+     - write - writes to a new/existing file
+     - import - imports a file from the user's machine
+     - export - exports a file from the simulated file system to the user's machine
+     - help - lists the usages of all commands.
 
 ## 4. External Interface Requirements
 
