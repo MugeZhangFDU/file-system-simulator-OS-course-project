@@ -1,5 +1,13 @@
 # Simple Unix File System Simulator: Bridging Theory and Practice in File System Management
 
+Group Members:
+
+Name: Muge Zhang
+Student ID: 2066202
+
+Name: Zhifeng Qi
+Student ID: 2082337
+
 ## Abstract
 
 Our Simple Unix File System Simulator is written in Java. It is an educational tool designed to emulate Unix file system operations. This simulator aims to provide practical experience in understanding how operating system concepts work.
