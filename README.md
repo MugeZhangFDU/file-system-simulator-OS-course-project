@@ -1,11 +1,10 @@
 # Simple Unix File System Simulator: Bridging Theory and Practice in File System Management
 
-Group Members:
+## Group Members:
 
-Name: Muge Zhang
+- Name: Muge Zhang   
 Student ID: 2066202
-
-Name: Zhifeng Qi
+- Name: Zhifeng Qi   
 Student ID: 2082337
 
 ## Abstract
