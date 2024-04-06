@@ -1,100 +1,118 @@
-# Requirement Definition Document for Simple Unix File System Simulator
+# Simple Unix File System Simulator: Bridging Theory and Practice in File System Management
 
-## 1. Introduction
+## Group Members:
 
-### 1.1 Purpose
-The purpose of this document is to outline the requirements for the Simple Unix File System Simulator. This simulator aims to provide an educational tool that demonstrates the workings of a Unix file system through simulation, using Java 17. It is intended for users who wish to understand file system concepts such as index nodes, super blocks, data blocks, and bitmaps.
+- Name: Muge Zhang   
+Student ID: 2066202
+- Name: Zhifeng Qi   
+Student ID: 2082337
 
-### 1.2 Scope
-The Simple Unix File System Simulator will simulate a Unix file system using a single binary file as a container to mimic a hard drive. The simulator will support basic file system operations such as creating directories, removing directories, listing contents, changing directories, copying files, removing files, displaying file contents, writing to files, importing files from the user's machine, and exporting files to the user's machine.
+## Abstract
 
-## 2. Overall Description
+Our Simple Unix File System Simulator is written in Java. It is an educational tool designed to emulate Unix file system operations. This simulator aims to provide practical experience in understanding how operating system concepts work.
 
-### 2.1 Product Perspective
-The product is a standalone application developed in Java 17, designed to run on Windows environments. It simulates a Unix file system's behavior, providing an interactive interface for users to execute file system commands.
+File management has always been a fundamental part of operating systems that we use daily, but the underlying mechanisms of file management systems have always remained opaque. By simulating the functionalities of the Unix file system, including file creation, deletion, manipulation, navigation, and so on, we want to demystify this intriguing system. We believe this would enhance our learning in the operating system significantly.
 
-### 2.2 Product Functions
-- **File System Creation:** Users can create a new file system by specifying a path and size for the container file.
-- **Directory Operations:** Users can create and remove directories.
-- **File Operations:** Users can list directory contents, change directories, copy, remove, view, and write to files.
-- **File Import/Export:** Users can import files from their machine into the simulated file system and export files from the simulated file system to their machine.
-- **Command Help:** Users can view a list of all available commands and their usages.
+We will build this project with a goal in mind. When someone uses our project to do some typical file operations, we will show the underlying mechanisms behind them at the same time, which are in most cases hidden from everyday users of operating systems such as ourselves. This way, users gain a comprehensive understanding of what happens "under the hood." Our project thus serves as a bridge between theoretical knowledge and practical application. By providing this clarity, we aspire to foster a deeper curiosity and appreciation for the intricacies of operating systems among OS students.
 
-### 2.3 User Classes and Characteristics
-- **Educators and Students:** Individuals seeking to understand the inner workings of Unix file systems through practical simulation.
-- **Software Developers:** Developers interested in file system concepts or developing file system-related applications.
+## Brief Project Description
 
-### 2.4 Operating Environment
-The simulator is designed to run on Windows operating systems. It requires Java 17 and Maven for building the project.
+This project offers a hands-on approach to learning about Unix file systems by simulating common operations within a binary file used as a virtual disk. Developed in Java 17 for Windows environments, it features a user-friendly command-line interface, allowing users to execute file operations, understand data organization, and explore file system architecture's impact on efficiency and reliability in real-world applications. Its most unique feature is its ability to show the hidden mechanisms behind each user-initiated operation on the command-line interface.
 
-### 2.5 Design and Implementation Constraints
-- The simulator is implemented in Java 17, limiting its performance and scalability compared to a native Unix file system.
-- The maximum file size is constrained by the implementation of index nodes and the size of the container file specified by the user.
+## Requirements Definition Document
 
-## 3. System Features
+### 1. Introduction
 
-### 3.1 File System Simulation
-- **Description:** The system simulates a Unix file system using a binary file as a container.
-- **Requirements:**
-  - The system must allow users to specify the path and size for the container file.
-  - The system must split the container file into blocks to simulate disk segmentation.
+#### 1.1 Purpose
 
-### 3.2 File and Directory Management
-- **Description:** Users can perform basic file and directory operations similar to a Unix file system.
-- **Requirements:**
+The document aims to give some details about the requirements for the Simple Unix File System Simulator. Using Java, this simulator demonstrates Unix file system operations by showing the user the hidden mechanisms behind each user-initiated operation via a command-line interface.
+
+#### 1.2 Scope
+
+The simulator enables the user to perform fundamental file and directory operations using a binary file to emulate disk storage. The operations might include most common ones such as directory creation and removal, content listing, directory navigation, file copying, deletion, etc. And we will try our best to show the users what is behind all these operations and what is concurrently happening under the hood.
+
+### 2. Overall Description
+
+#### 2.1 Product Perspective
+
+This simulator is a standalone Java application. It is tailored for Windows.
+
+#### 2.2 Product Functions
+
+Key functions include:
+- File System Creation: Initiate a new file system within a virtual disk.
+- Directory and File Operations: Create, delete, list, and modify files and directories.
+- File Import/Export: Facilitate the transfer of files between the simulated system and the user's machine.
+
+#### 2.3 User Classes and Characteristics
+
+Designed for educators, students, and developers
+
+#### 2.4 Operating Environment
+
+Compatible with Windows, requiring Java 17 and Maven
+
+#### 2.5 Design and Implementation Constraints
+
+Because this is a simple course project, we want to do our best to show the mechanisms behind directory operations. Due to limitations in time and resources, performance and scalability might not be so good, so the project is for education purposes only.
+
+### 3. System Features
+
+#### 3.1 File System Simulation
+
+The system simulates a Unix file system using a binary file as a container.
+Requirements:
+  - The system must allow users to specify the path and size of the container file.
+  - The system must be able to split the container file into blocks to simulate disk segmentation.
+
+#### 3.2 File and Directory Management
+
+Users can perform basic file and directory operations similar to a Unix file system.
+Requirements:
   - Support for creating, removing, listing, and navigating directories.
   - Support for file operations such as copying, removing, viewing, and writing.
 
-### 3.3 File Import/Export
-- **Description:** The system allows users to import files from their machine into the simulated file system and export files back to their machine.
-- **Requirements:**
-  - The system must provide commands for importing and exporting files.
-  - The system must handle file path specifications for import/export operations.
+#### 3.3 File Import/Export (Optional)
 
-### 3.4 User Interaction
-- **Description:** The system provides an interface for users to interact with the simulated file system through commands.
-- **Requirements:**
-  - The system must accept and process commands entered by the user.
+The system allows users to import files from their machine into the simulated file system and export files back to their machine.
+Requirements:
+  - The system can provide commands for importing and exporting files.
+  - The system can handle file path specifications for import/export operations.
+
+#### 3.4 User Interaction
+
+The system provides an interface for users to interact with the simulated file system through commands.
+Requirements:
+  - The system must accept and process a pre-defined set of commands entered by the user (e.g. mkdir, rmdir, ls, cd...).
   - The system must provide feedback and results of command execution.
-  - The system must support some of the basic Unix file system commands, such as:
-     - mkdir - creates a directory
-     - rmdir - removes a directory
-     - ls - lists the content inside the current directory
-     - cd - changes the directory
-     - cp - copies a file
-     - rm - removes a file
-     - cat - shows the content of a file
-     - write - writes to a new/existing file
-     - import - imports a file from the user's machine
-     - export - exports a file from the simulated file system to the user's machine
-     - help - lists the usages of all commands.
 
-## 4. External Interface Requirements
+#### 3.5 Mechanism Insights
 
-### 4.1 User Interfaces
-- **Description:** The system provides a command-line interface for user interaction.
-- **Requirements:**
+Simultaneously show the underlying processes involved in file and directory operations when performed by the user.
+Requirements:
+- For directory operations (create, remove, list, navigate), display the Unix file system's steps for managing directory structure and metadata.
+- For file operations (copy, remove, view, write), illustrate how the Unix file system handles file data, allocation, and metadata updates.
+
+### 4. External Interface Requirements
+
+#### 4.1 User Interfaces
+
+The system provides a command-line interface for user interaction.
+Requirements:
   - The interface must display prompts for user input.
   - The interface must display the results of command executions.
 
-### 4.2 Software Interfaces
-- **Description:** The system is built using Java 17 and requires Maven for building.
-- **Requirements:**
+#### 4.2 Software Interfaces
+
+The system is built using Java 17 and requires Maven for building.
+Requirements:
   - Java 17 runtime environment must be installed on the user's machine.
   - Maven (or provided Maven wrapper) must be available for building the project.
 
-## 5. Other Nonfunctional Requirements
+### 5. Other Nonfunctional Requirements (Optional)
 
-### 5.1 Performance Requirements
-- The system should respond to user commands within a reasonable time frame, not exceeding 2 seconds for any operation.
+Non-functional requirements include response time, file security, error handling, clear command syntax, and so on. But, again, due to limited time and resources, these functionalities may or may not be implemented.
 
-### 5.2 Security Requirements
-- As a simulation tool, the system does not require encryption or advanced security measures. However, file import/export operations should ensure that file paths are validated to prevent directory traversal attacks.
+### 6. Conclusion
 
-### 5.3 Software Quality Attributes
-- **Reliability:** The system should handle errors gracefully, providing meaningful error messages to the user.
-- **Usability:** The system should be easy to use, with clear command syntax and helpful documentation.
-- **Maintainability:** The code should be well-organized and documented to facilitate future enhancements and bug fixes.
-
-## 6. Conclusion
-This Requirement Definition Document outlines the essential requirements for the Simple Unix File System Simulator. The simulator serves as an educational tool, allowing users to explore and understand the concepts of a Unix file system through practical simulation.
+This Requirement Definition Document outlines the essential requirements for the Unix File System Simulator. The simulator serves as an educational tool, allowing users to explore and understand the concepts of a Unix file system through practical simulation.
