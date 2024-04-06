@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.container;
+package com.fduops.filesystemsimulator.filestructures.container;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;

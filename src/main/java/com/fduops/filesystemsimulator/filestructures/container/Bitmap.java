@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.container;
+package com.fduops.filesystemsimulator.filestructures.container;
 
 /**
  * Represents a bitmap file system structure.

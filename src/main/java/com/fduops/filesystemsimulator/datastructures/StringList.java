@@ -1,6 +1,6 @@
-package com.yoanpetrov.filesystemsimulator.datastructures;
+package com.fduops.filesystemsimulator.datastructures;
 
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 
 /**
  * String representation of the ArrayList data structure.

@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.datastructures;
+package com.fduops.filesystemsimulator.datastructures;
 
 /**
  * Linked list data structure.

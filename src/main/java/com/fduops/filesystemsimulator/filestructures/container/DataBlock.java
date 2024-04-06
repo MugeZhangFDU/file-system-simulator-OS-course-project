@@ -1,6 +1,6 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.container;
+package com.fduops.filesystemsimulator.filestructures.container;
 
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 
 /**
  * Represents a data block in a file system.

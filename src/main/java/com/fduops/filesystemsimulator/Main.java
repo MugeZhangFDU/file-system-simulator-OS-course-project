@@ -1,9 +1,10 @@
-package com.yoanpetrov.filesystemsimulator;
+package com.fduops.filesystemsimulator;
 
 import java.util.Scanner;
-import com.yoanpetrov.filesystemsimulator.exceptions.FileSystemException;
-import com.yoanpetrov.filesystemsimulator.filesystem.FileSystem;
-import com.yoanpetrov.filesystemsimulator.parser.OptionParser;
+
+import com.fduops.filesystemsimulator.exceptions.FileSystemException;
+import com.fduops.filesystemsimulator.parser.OptionParser;
+import com.fduops.filesystemsimulator.filesystem.FileSystem;
 
 public class Main {
 

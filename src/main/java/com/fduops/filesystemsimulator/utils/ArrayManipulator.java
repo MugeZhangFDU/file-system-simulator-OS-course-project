@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.utils;
+package com.fduops.filesystemsimulator.utils;
 
 public class ArrayManipulator {
 

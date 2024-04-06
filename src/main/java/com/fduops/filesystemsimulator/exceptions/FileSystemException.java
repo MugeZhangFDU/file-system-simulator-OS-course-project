@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.exceptions;
+package com.fduops.filesystemsimulator.exceptions;
 
 /**
  * This exception is thrown whenever an error occurs while a FileSystem object is functioning.

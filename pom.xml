@@ -29,7 +29,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.yoanpetrov.filesystemsimulator.Main
+                                        com.fduops.filesystemsimulator.Main
                                     </mainClass>
                                 </manifest>
                             </archive>

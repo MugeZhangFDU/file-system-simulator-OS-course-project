@@ -1,6 +1,6 @@
-package com.yoanpetrov.filesystemsimulator.utils;
+package com.fduops.filesystemsimulator.utils;
 
-import com.yoanpetrov.filesystemsimulator.datastructures.StringList;
+import com.fduops.filesystemsimulator.datastructures.StringList;
 
 public class StringManipulator {
 

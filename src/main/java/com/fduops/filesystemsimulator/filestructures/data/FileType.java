@@ -1,4 +1,4 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.data;
+package com.fduops.filesystemsimulator.filestructures.data;
 
 /**
  * Represents the types of files that can exist in a file system.

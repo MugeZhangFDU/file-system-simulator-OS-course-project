@@ -1,7 +1,10 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.data;
+package com.fduops.filesystemsimulator.filestructures.data;
 
-import com.yoanpetrov.filesystemsimulator.datastructures.*;
-import com.yoanpetrov.filesystemsimulator.exceptions.FileSystemException;
+import com.fduops.filesystemsimulator.datastructures.LinkedList;
+import com.fduops.filesystemsimulator.datastructures.StringAppender;
+import com.fduops.filesystemsimulator.datastructures.StringList;
+import com.fduops.filesystemsimulator.datastructures.*;
+import com.fduops.filesystemsimulator.exceptions.FileSystemException;
 
 /**
  * Represents a directory tree in a simulated file system. Used by FileSystem objects.

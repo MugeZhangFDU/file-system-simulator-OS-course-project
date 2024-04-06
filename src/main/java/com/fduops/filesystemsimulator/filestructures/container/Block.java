@@ -1,8 +1,9 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.container;
+package com.fduops.filesystemsimulator.filestructures.container;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
+
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 
 /**
  * A sequence of 512 bytes, representing a file system block.

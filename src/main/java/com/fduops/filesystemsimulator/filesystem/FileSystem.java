@@ -1,17 +1,24 @@
-package com.yoanpetrov.filesystemsimulator.filesystem;
+package com.fduops.filesystemsimulator.filesystem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import com.yoanpetrov.filesystemsimulator.datastructures.LinkedList;
-import com.yoanpetrov.filesystemsimulator.datastructures.StringAppender;
-import com.yoanpetrov.filesystemsimulator.exceptions.FileSystemException;
-import com.yoanpetrov.filesystemsimulator.filestructures.container.*;
-import com.yoanpetrov.filesystemsimulator.filestructures.data.*;
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
-import com.yoanpetrov.filesystemsimulator.utils.StringManipulator;
+
+import com.fduops.filesystemsimulator.datastructures.LinkedList;
+import com.fduops.filesystemsimulator.datastructures.StringAppender;
+import com.fduops.filesystemsimulator.exceptions.FileSystemException;
+import com.fduops.filesystemsimulator.filestructures.container.Bitmap;
+import com.fduops.filesystemsimulator.filestructures.container.DataBlock;
+import com.fduops.filesystemsimulator.filestructures.container.IndexNode;
+import com.fduops.filesystemsimulator.filestructures.container.SuperBlock;
+import com.fduops.filesystemsimulator.filestructures.data.DirectoryTree;
+import com.fduops.filesystemsimulator.filestructures.data.FileType;
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
+import com.fduops.filesystemsimulator.utils.StringManipulator;
+import com.fduops.filesystemsimulator.filestructures.container.*;
+import com.fduops.filesystemsimulator.filestructures.data.*;
 
 public class FileSystem {
 

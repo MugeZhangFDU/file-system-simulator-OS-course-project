@@ -1,6 +1,6 @@
-package com.yoanpetrov.filesystemsimulator.datastructures;
+package com.fduops.filesystemsimulator.datastructures;
 
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 
 /**
  * String appender class, simplified version of StringBuilder.

@@ -1,6 +1,6 @@
-package com.yoanpetrov.filesystemsimulator.parser;
+package com.fduops.filesystemsimulator.parser;
 
-import com.yoanpetrov.filesystemsimulator.utils.StringManipulator;
+import com.fduops.filesystemsimulator.utils.StringManipulator;
 
 /**
  * Provides utility methods connected to the commands that can be passed to OptionParser.

@@ -1,12 +1,12 @@
-package com.yoanpetrov.filesystemsimulator.filestructures.container;
+package com.fduops.filesystemsimulator.filestructures.container;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
-import com.yoanpetrov.filesystemsimulator.exceptions.FileSystemException;
-import com.yoanpetrov.filesystemsimulator.filestructures.data.FileType;
-import com.yoanpetrov.filesystemsimulator.utils.ArrayManipulator;
+import com.fduops.filesystemsimulator.exceptions.FileSystemException;
+import com.fduops.filesystemsimulator.filestructures.data.FileType;
+import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 
 /**
  * Represents an index node file system structure. An index node contains information about a file,

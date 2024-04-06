@@ -1,9 +1,9 @@
-package com.yoanpetrov.filesystemsimulator.parser;
+package com.fduops.filesystemsimulator.parser;
 
-import com.yoanpetrov.filesystemsimulator.exceptions.FileSystemException;
-import com.yoanpetrov.filesystemsimulator.filestructures.data.FileType;
-import com.yoanpetrov.filesystemsimulator.filesystem.FileSystem;
-import com.yoanpetrov.filesystemsimulator.utils.StringManipulator;
+import com.fduops.filesystemsimulator.filestructures.data.FileType;
+import com.fduops.filesystemsimulator.utils.StringManipulator;
+import com.fduops.filesystemsimulator.exceptions.FileSystemException;
+import com.fduops.filesystemsimulator.filesystem.FileSystem;
 
 public class OptionParser {
 
