@@ -17,13 +17,16 @@ import com.fduops.filesystemsimulator.filestructures.data.DirectoryTree;
 import com.fduops.filesystemsimulator.filestructures.data.FileType;
 import com.fduops.filesystemsimulator.utils.ArrayManipulator;
 import com.fduops.filesystemsimulator.utils.StringManipulator;
-import com.fduops.filesystemsimulator.filestructures.container.*;
-import com.fduops.filesystemsimulator.filestructures.data.*;
 
 public class FileSystem {
 
 	public static final byte BYTE_MAX = (byte) 0xff; // 255
-
+    /**
+     * The switch to control logs
+     * true - show logs
+     * false - hide logs
+     */
+    private static final boolean LOG_SWITCH = true;
 	RandomAccessFile containerFile;
 	String systemPath;
 	DirectoryTree tree;
@@ -63,6 +66,15 @@ public class FileSystem {
 		}
 	}
 
+    /**
+     * A method that controls task logs. If LOG_SWITCH is false, then no log will be printed.
+     * @param taskName taskName
+     */
+    private void printTaskLog( String taskName ){
+        if( LOG_SWITCH ){
+            System.out.printf( "-------  Executing task: %s  -------\r\n",taskName );
+        }
+    }
 	/**
 	 * Creates a file with the given name and file type.
 	 * @param name the name of the new file.
@@ -72,6 +84,7 @@ public class FileSystem {
 	 */
 	public void makeFile(String name, FileType type)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (tree.fileExists(name) || tree.dirExists(name)) {
 			throw new FileSystemException(
 					"A file/directory with the same name already exists");
@@ -105,6 +118,7 @@ public class FileSystem {
 	 */
 	public void removeDir()
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
 			int currentIndex = tree.getCurrentDir().inodeNumber;
 			readIndexNode(currentNode, currentIndex);
@@ -126,6 +140,7 @@ public class FileSystem {
 	 * Prints a list of the content in the current directory on the screen.
 	 */
 	public void listCurrentDir() {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		LinkedList<DirectoryTree.Node> nodes =
 				tree.getCurrentDir().childNodes;
 		System.out.print(".. ");
@@ -139,6 +154,7 @@ public class FileSystem {
 	 */
 	public void changeDir(String path)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if ("/".equals(path)) {
 			tree.goToRoot();
 			return;
@@ -161,6 +177,7 @@ public class FileSystem {
 	 */
 	public void copyFile(String sourceName, String destinationName)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		validateCopy(sourceName, destinationName);
 		try {
 			makeFile(destinationName, FileType.FILE);
@@ -182,6 +199,7 @@ public class FileSystem {
 	 */
 	public void deleteFile(String fileName)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (!tree.fileExists(fileName)) {
 			throw new FileSystemException(
 					"The specified file does not exist");
@@ -208,6 +226,7 @@ public class FileSystem {
 	 */
 	public void printFile(String fileName)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		validatePrint(fileName);
 		try {
 			printBlocks(tree.getChild(fileName).inodeNumber);
@@ -225,6 +244,7 @@ public class FileSystem {
 	 */
 	public void writeToFile(String fileName, byte[] bytes)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		validateWrite(fileName);
 		try {
 			makeFile(fileName, FileType.FILE);
@@ -246,6 +266,7 @@ public class FileSystem {
 	 */
 	public void appendToFile(String fileName, byte[] bytes)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
 			if (tree.dirExists(fileName)) {
 				throw new FileSystemException(
@@ -272,6 +293,7 @@ public class FileSystem {
 	 */
 	public void importFile(String externalPath, String destinationFile)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		validateImport(externalPath, destinationFile);
 		makeFile(destinationFile, FileType.FILE);
 		try {
@@ -291,6 +313,7 @@ public class FileSystem {
 	 */
 	public void exportFile(String file, String externalPath)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		validateExport(file, externalPath);
 
 		try {
@@ -309,6 +332,7 @@ public class FileSystem {
 	 */
 	public int allocateInodeBlock()
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int oldIndex = currentInodeBitmapIndex;
 		int inodeBitmapLength =
 				superBlock.getDataBitmapOffset() - superBlock.getInodeBitmapOffset();
@@ -339,6 +363,7 @@ public class FileSystem {
 	 */
 	public void freeInodeBlock(int inodeBlockNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek = inodeBlockNumber / 4096;
 		readBitmap(
 				currentInodeBitmapBlock,
@@ -358,6 +383,7 @@ public class FileSystem {
 	 */
 	public int allocateDataBlock()
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int oldIndex = currentDataBitmapIndex;
 		int dataBitmapLength =
 				superBlock.getInodeBlockOffset() - superBlock.getDataBitmapOffset();
@@ -386,6 +412,7 @@ public class FileSystem {
 	 */
 	public void freeDataBlock(int dataBlockNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek = dataBlockNumber / 4096;
 		readBitmap(
 				currentDataBitmapBlock,
@@ -405,6 +432,7 @@ public class FileSystem {
 	 */
 	public void readIndexNode(IndexNode node, int indexNodeNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek =
 				superBlock.getInodeBlockOffset() +
 				indexNodeNumber / (superBlock.getBlockSize() / IndexNode.INODE_SIZE);
@@ -426,6 +454,7 @@ public class FileSystem {
 	 */
 	public void writeIndexNode(IndexNode node, int indexNodeNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek =
 				superBlock.getInodeBlockOffset() +
 				indexNodeNumber / (superBlock.getBlockSize() / IndexNode.INODE_SIZE);
@@ -449,6 +478,7 @@ public class FileSystem {
 	 */
 	public void addDirectBlock(int indexNodeNumber, int blockToAdd)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		readIndexNode(currentNode, indexNodeNumber);
 		currentNode.addDirectBlock(blockToAdd);
 		writeIndexNode(currentNode, indexNodeNumber);
@@ -464,6 +494,7 @@ public class FileSystem {
 	 */
 	public void removeDirectBlock(int indexNodeNumber, int blockToRemove)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		readIndexNode(currentNode, indexNodeNumber);
 		currentNode.removeDirectBlock(blockToRemove);
 		writeIndexNode(currentNode, indexNodeNumber);
@@ -477,6 +508,7 @@ public class FileSystem {
 	 */
 	public void readDataBlock(DataBlock block, int dataBlockNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek =
 				superBlock.getDataBlockOffset() + dataBlockNumber;
 		containerFile.seek(
@@ -492,6 +524,7 @@ public class FileSystem {
 	 */
 	public void writeDataBlock(DataBlock block, int dataBlockNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek =
 				superBlock.getDataBlockOffset() + dataBlockNumber;
 		containerFile.seek(
@@ -500,6 +533,7 @@ public class FileSystem {
 	}
 
 	public String getSystemPath() {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		return tree.getPath();
 	}
 
@@ -513,6 +547,7 @@ public class FileSystem {
 	 */
 	private void readBitmap(Bitmap bitmap, int offset, int bitmapNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek = offset + bitmapNumber;
 		if (bitmapNumber == superBlock.getInodeBitmapOffset()) {
 			currentInodeBitmapIndex = bitmapNumber;
@@ -535,6 +570,7 @@ public class FileSystem {
 	 */
 	private void writeBitmap(Bitmap bitmap, int offset, int bitmapNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int blockToSeek = offset + bitmapNumber;
 		if (bitmapNumber == superBlock.getInodeBitmapOffset()) {
 			currentInodeBitmapIndex = bitmapNumber;
@@ -555,6 +591,7 @@ public class FileSystem {
 	 */
 	private void initialize(long size)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		superBlock = new SuperBlock();
 		superBlock.initialize(size);
 		createFileSystem();
@@ -567,6 +604,7 @@ public class FileSystem {
 	 */
 	private void createFileSystem()
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		deleteExistingFileContent();
 		containerFile.seek(
 				superBlock.getTotalBlockCount() * 512L);
@@ -583,15 +621,17 @@ public class FileSystem {
 	 */
 	private void deleteExistingFileContent()
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		new PrintWriter(systemPath).close();
 	}
 
 	/**
-	 * Initializes the bitmap blocks of the file system and writee them to the container file.
+	 * Initializes the bitmap blocks of the file system and write them to the container file.
 	 * @throws IOException if an i/o error occurs.
 	 */
 	private void initializeBitmaps()
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		byte[] bitmapBytes = new byte[512];
 		ArrayManipulator.fillArray(bitmapBytes, BYTE_MAX);
 		Bitmap bitmap = new Bitmap(bitmapBytes);
@@ -612,6 +652,7 @@ public class FileSystem {
 	 */
 	private void initializeRootNode()
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		rootNode = new IndexNode();
 		rootNode.setName("root");
 		rootNode.addDirectBlock(allocateInodeBlock());
@@ -625,6 +666,7 @@ public class FileSystem {
 	 * if it exists (if it does not exist, the current dir is root).
 	 */
 	private void goToParentDir() {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (tree.getCurrentDir().parent == null) {
 			return;
 		}
@@ -640,6 +682,7 @@ public class FileSystem {
 	 */
 	private void validateCopy(String src, String dest)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (!tree.fileExists(src)) {
 			throw new FileSystemException(
 					"The specified file to copy does not exist or is a directory");
@@ -659,6 +702,7 @@ public class FileSystem {
 	 */
 	private void copyFileBlocks(int sourceNumber, int destNumber)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		IndexNode sourceNode = new IndexNode();
 		IndexNode destinationNode = new IndexNode();
 		readIndexNode(sourceNode, sourceNumber);
@@ -677,6 +721,7 @@ public class FileSystem {
 	 */
 	private void copyDataBlocks(IndexNode from, IndexNode to)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		for (int i = 1; i < from.getAllocatedBlockCount(); i++) {
 			readDataBlock(
 					currentDataBlock,
@@ -696,6 +741,7 @@ public class FileSystem {
 	 */
 	private void wipeDataBlock(int dataBlockNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		readDataBlock(
 				currentDataBlock,
 				dataBlockNumber);
@@ -714,6 +760,7 @@ public class FileSystem {
 	 */
 	private void validatePrint(String fileName)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (!tree.fileExists(fileName)) {
 			throw new FileSystemException(
 					"The specified file does not exist");
@@ -731,6 +778,7 @@ public class FileSystem {
 	 */
 	private void printBlocks(int inodeNumber)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		DataBlock buffer = new DataBlock();
 		StringAppender result = new StringAppender();
 		readIndexNode(currentNode, inodeNumber);
@@ -753,6 +801,7 @@ public class FileSystem {
 	 * @param chars the characters to append.
 	 */
 	private void appendValidChars(StringAppender appender, String chars) {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		for (int i = 0; i < chars.length(); i++) {
 			if (chars.charAt(i) != (char)(byte)0) {
 				appender.append(
@@ -768,6 +817,7 @@ public class FileSystem {
 	 */
 	private void validateWrite(String fileName)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (tree.dirExists(fileName)) {
 			throw new FileSystemException(
 					"The given name points to a directory");
@@ -783,7 +833,7 @@ public class FileSystem {
 	 * @return the calculated amount of blocks.
 	 */
 	private int calculateNeededBlocks(int amountOfBytes) {
-		return (int) Math.ceil(amountOfBytes / 512f);
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());return (int) Math.ceil(amountOfBytes / 512f);
 	}
 
 	/**
@@ -792,7 +842,7 @@ public class FileSystem {
 	 * @return the calculated amount of blocks.
 	 */
 	private int calculateNeededBlocks(long amountOfBytes) {
-		return (int) Math.ceil(amountOfBytes / 512f);
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());return (int) Math.ceil(amountOfBytes / 512f);
 	}
 
 	/**
@@ -805,6 +855,7 @@ public class FileSystem {
 	 */
 	private void writeBytesToBlocks(byte[] bytes, int inodeNumber, int neededBlocksCount)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		byte[] buffer;
 		int allocatedBlock;
 		for (int i = 0; i < neededBlocksCount; i++) {
@@ -832,6 +883,7 @@ public class FileSystem {
 	 */
 	private void appendBytesToBlocks(byte[] bytes, int inodeNumber)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		readIndexNode(currentNode, inodeNumber);
 		readDataBlock(
 				currentDataBlock,
@@ -858,6 +910,7 @@ public class FileSystem {
 	 * @return the calculated amount of blocks.
 	 */
 	private int calculateBlocksAppend(byte[] bytes, int lastBlockFreeBytes) {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		int bytesLeft = bytes.length;
 		bytesLeft -= lastBlockFreeBytes;
 		return calculateNeededBlocks(bytesLeft);
@@ -872,6 +925,7 @@ public class FileSystem {
 	 */
 	private void validateImport(String extPath, String destFile)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (Files.notExists(Path.of(extPath))) {
 			throw new FileSystemException(
 					"The external file does not exist");
@@ -891,6 +945,7 @@ public class FileSystem {
 	 */
 	private void importBlocks(String src, String dest)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		try (RandomAccessFile srcFile = new RandomAccessFile(src, "r")) {
 			long len = srcFile.length();
 			int neededBlocks = calculateNeededBlocks(len);
@@ -916,6 +971,7 @@ public class FileSystem {
 	 */
 	private void importBlocksFromFile(int neededBlocksCount, RandomAccessFile file, IndexNode dest)
 			throws IOException, FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		byte[] buffer = new byte[512];
 		for (int i = 0; i < neededBlocksCount; i++) {
 			if (i == neededBlocksCount - 1) {
@@ -941,6 +997,7 @@ public class FileSystem {
 	 */
 	private void validateExport(String fileName, String extPath)
 			throws FileSystemException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		if (!tree.fileExists(fileName)) {
 			throw new FileSystemException(
 					"The specified file does not exist");
@@ -959,6 +1016,7 @@ public class FileSystem {
 	 */
 	private void exportBlocks(String from, String to)
 			throws IOException {
+        printTaskLog(Thread.currentThread().getStackTrace()[1].getMethodName());
 		try (RandomAccessFile ext = new RandomAccessFile(to, "rw")) {
 			int inodeNumber = tree.getChild(from).inodeNumber;
 			readIndexNode(currentNode, inodeNumber);
